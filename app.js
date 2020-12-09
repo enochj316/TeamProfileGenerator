@@ -4,12 +4,22 @@ const fs = require("fs");
 const Engineer = require("./lib/Engineer");
 const Intern = require("./lib/Intern");
 const Manager = require("./lib/Manager");
+const validator = require('email-validator');
 
 const employees = [];
 
 function initApp() {
     startHtml();
     addMember();
+}
+
+// Validate e-mail
+function validateEmail(email) {
+
+    if (validator.validate(email))
+        return true;
+
+    return `${email} is not a valid email`;
 }
 
 function addMember() {
@@ -33,7 +43,8 @@ function addMember() {
     },
     {
         message: "Enter team member's email address",
-        name: "email"
+        name: "email",
+        validate: validateEmail
     }])
         .then(function ({ name, role, id, email }) {
             let roleInfo = "";
